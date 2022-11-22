@@ -19,7 +19,7 @@ class Object
   include AkaDraper
 end
 
-class Dog
+class Animal
   attr_reader :name
 
   def initialize(name)
@@ -27,10 +27,21 @@ class Dog
   end
 end
 
+
+class Dog < Animal; end
+class Cat < Animal; end
+
 class DogDecorator < AkaDraper::Base
   def dc_name
-    'QQQ'
+    'DC dog_name'
   end
 end
 
-Dog.new('aaa').decorate
+dog = Dog.new('dog_name')
+dc_dog = dog.decorate
+
+dog.name                   # => 'dog_name'
+dc_dog.dc_name             # => 'DC dog_name'
+
+cat = Cat.new('cat_name')  # => 'DC cat_name'
+dc_cat = cat.decorate      # => RuntimeError (Implement 'CatDecorator' class)
